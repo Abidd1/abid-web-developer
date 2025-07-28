@@ -160,7 +160,7 @@ const About = () => {
               <div className="relative">
                 <figure>
                   <img
-                  src="./Assets/Rumi.webp"
+                  src="https://media.istockphoto.com/id/2170968042/photo/man-shape-sign-on-the-futuristic-blue-pixelated-background-user-profile-symbol-social-media.webp?a=1&b=1&s=612x612&w=0&k=20&c=BDXhg11c0DGcmbvRiCL-lkpwABixbIV00_jfRhP2tTI="
                   alt="About us section of Abid Ali Web and App Developer and Designer"
                   title='About abid ali Web Developer and Designer'
                   className="rounded-2xl shadow-2xl hover-lift"
