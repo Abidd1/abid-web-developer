@@ -1,5 +1,3 @@
-// src/app/hire/page.tsx (or wherever your Hire component is located)
-
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
