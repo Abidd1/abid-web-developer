@@ -20,7 +20,7 @@ const AboutIntro = () => {
             <div className="relative">
               <figure>
                 <img
-                src="./Assets/about_abid_ali_web_developer_and_designer.webp"
+                src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZGV2ZWxvcGVyfGVufDB8fDB8fHww"
                 alt="About abid ali Web and App developer "
                 title='Know About abid ali web developer'
                 aria-describedby='Introduction and about info of abid ali web developer and designer'
