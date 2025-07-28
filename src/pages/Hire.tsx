@@ -1,13 +1,17 @@
+// src/app/hire/page.tsx (or wherever your Hire component is located)
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useState } from 'react';
 import { Send, CheckCircle, Clock, Users, Award, Code } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { sendFormToEmail } from '@/utils/emailService';
-import { Helmet } from 'react-helmet-async';
+import { useToast } from '@/hooks/use-toast'; // Assuming this hook is correctly set up
+import { sendFormToEmail } from '@/utils/emailService'; // Import the updated email service
+import { Helmet } from 'react-helmet-async'; // Assuming this is correctly set up for SEO
 
-
-// Operation Area
+// Operation Area (This seems to be a separate component or just descriptive text)
+// If 'AboutPage' is a distinct component, it should be in its own file.
+// For the purpose of providing the 'Hire' component, I'll keep it as it was in your original code,
+// but note it's unusual to have it in the same file as a main page component like 'Hire'.
 const AboutPage: React.FC = () => {
   const pageTitle = "abid ali - Web and App Developer | Designer";
   const pageDescription = "Want to Hire a Best Developer for your Website or App Development and Design? abid ali with +5 years of experinces and 50+ projects delivered with 98% of clients satisfiction Globally, recognised by Infomistar, Code Voyagers, and SMIT.";
@@ -27,9 +31,10 @@ const AboutPage: React.FC = () => {
         <meta property="og:type" content="website" />
 
         {/* Twitter Card tags */}
-        <meta name="twitter:card" content="Want to Hire a Best Developer for your Website or App Development and Design? abid ali with +5 years of experinces and 50+ projects delivered with 98% of clients satisfiction Globally, recognised by Infomistar, Code Voyagers, and SMIT." /> {/* Example of a different card type */}
+        <meta name="twitter:card" content="summary_large_image" /> {/* Changed to a common card type. Your original was too long. */}
         <meta name="twitter:title" content={`${pageTitle} | Hire Now`} />
         <meta name="twitter:description" content={pageDescription} />
+        {/* Add meta name="twitter:image" content="URL_TO_YOUR_IMAGE" if you have a social media image */}
 
         <meta name="robots" content="index, follow" />
       </Helmet>
@@ -37,6 +42,7 @@ const AboutPage: React.FC = () => {
     </div>
   );
 };
+
 
 const Hire = () => {
   const [formData, setFormData] = useState({
@@ -50,17 +56,17 @@ const Hire = () => {
     requirements: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const { toast } = useToast(); // Destructure toast from your useToast hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Send email
+      // Send email using the updated service
       await sendFormToEmail(formData, 'hire');
-      
-      // Simulate form submission delay
+
+      // Simulate form submission delay for better UX
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       toast({
@@ -68,14 +74,16 @@ const Hire = () => {
         description: "Thank you for your interest. We'll review your project and get back to you within 12 hours.",
       });
 
+      // Clear the form after successful submission
       setFormData({
-        name: '', email: '', company: '', projectType: '', budget: '', 
+        name: '', email: '', company: '', projectType: '', budget: '',
         timeline: '', description: '', requirements: ''
       });
     } catch (error) {
+      console.error("Form submission error:", error); // Log the error for debugging
       toast({
         title: "Error sending inquiry",
-        description: "Please try again or contact us directly via email.",
+        description: "There was a problem sending your inquiry. Please try again or contact us directly via email.",
         variant: "destructive"
       });
     } finally {
@@ -100,7 +108,7 @@ const Hire = () => {
     },
     {
       icon: CheckCircle,
-      title: 'Mobile App Development',  
+      title: 'Mobile App Development',
       description: 'Cross-platform mobile applications for iOS and Android.',
       features: ['React Native Apps', 'Native iOS/Android', 'App Store Deployment', 'Push Notifications'],
       priceRange: '$8,000 - $35,000'
@@ -147,7 +155,9 @@ const Hire = () => {
   return (
     <div className="min-h-screen" style={{ scrollBehavior: 'smooth' }}>
       <Navigation />
-      
+      {/* The AboutPage component is still here, but consider moving it if it's not directly related to this page's content */}
+      <AboutPage />
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-slate-900 via-portfolio-primary/20 to-slate-800 text-white">
         <div className="container mx-auto px-6">
@@ -156,7 +166,7 @@ const Hire = () => {
               Hire <span className="text-gradient">Me</span>
             </h1>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-              Ready to transform your ideas into exceptional digital experiences? 
+              Ready to transform your ideas into exceptional digital experiences?
               Let's collaborate and create something amazing together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -200,14 +210,14 @@ const Hire = () => {
                       {service.priceRange}
                     </span>
                   </div>
-                  
+
                   <h3 className="text-2xl font-semibold font-poppins mb-4">
                     {service.title}
                   </h3>
                   <p className="text-muted-foreground mb-6 leading-relaxed">
                     {service.description}
                   </p>
-                  
+
                   <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center text-sm">
