@@ -1,44 +1,38 @@
+import React, { useState } from 'react'; // Import React
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { useState } from 'react';
 import { Send, CheckCircle, Clock, Users, Award, Code } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { sendFormToEmail } from '@/utils/emailService';
 import { Helmet } from 'react-helmet-async';
 
-
-// Operation Area
+// --- This component is for SEO and can remain as is ---
 const AboutPage: React.FC = () => {
   const pageTitle = "abid ali - Web and App Developer | Designer";
   const pageDescription = "Want to Hire a Best Developer for your Website or App Development and Design? abid ali with +5 years of experinces and 50+ projects delivered with 98% of clients satisfiction Globally, recognised by Infomistar, Code Voyagers, and SMIT.";
-  const canonicalUrl = "https://your-website.com/about"; // Replace with your actual domain and path
+  const canonicalUrl = "https://abid-web-developer.vercel.app/about"; // Replace with your actual domain and path
 
   return (
     <div>
       <Helmet>
-        <title>{pageTitle} | Hire Now</title> {/* Good practice to include brand name */}
+        <title>{pageTitle} | Hire Now</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-
-        {/* Open Graph tags */}
         <meta property="og:title" content={`${pageTitle} | Hire Now`} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
-
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="Want to Hire a Best Developer for your Website or App Development and Design? abid ali with +5 years of experinces and 50+ projects delivered with 98% of clients satisfiction Globally, recognised by Infomistar, Code Voyagers, and SMIT." /> {/* Example of a different card type */}
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${pageTitle} | Hire Now`} />
         <meta name="twitter:description" content={pageDescription} />
-
         <meta name="robots" content="index, follow" />
       </Helmet>
-      {/* ... rest of your about page content */}
     </div>
   );
 };
 
+// --- This is your main Hire Page Component ---
 const Hire = () => {
+  // --- State management remains the same ---
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,37 +46,7 @@ const Hire = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      // Send email
-      await sendFormToEmail(formData, 'hire');
-      
-      // Simulate form submission delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      toast({
-        title: "Project inquiry sent successfully!",
-        description: "Thank you for your interest. We'll review your project and get back to you within 12 hours.",
-      });
-
-      setFormData({
-        name: '', email: '', company: '', projectType: '', budget: '', 
-        timeline: '', description: '', requirements: ''
-      });
-    } catch (error) {
-      toast({
-        title: "Error sending inquiry",
-        description: "Please try again or contact us directly via email.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+  // --- NEW: The handleChange function remains the same ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -90,6 +54,67 @@ const Hire = () => {
     });
   };
 
+  // --- UPDATED: The handleSubmit function with Web3Forms logic ---
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Create the payload for Web3Forms
+      const payload = {
+        ...formData,
+        access_key: "adbaaba9-48cc-4e76-bf08-b88b9319b855", // Your Web3Forms Access Key
+        subject: `New Project Inquiry from ${formData.name}`,
+        from_name: "Your Portfolio Site",
+      };
+
+      // Send the data to Web3Forms
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        // Use your existing toast for the success message
+        toast({
+          title: "Project inquiry sent successfully!",
+          description: "Thank you for your interest. I'll get back to you within 12 hours.",
+        });
+        // Reset the form
+        setFormData({
+          name: '', email: '', company: '', projectType: '', budget: '', 
+          timeline: '', description: '', requirements: ''
+        });
+      } else {
+        // Handle API errors from Web3Forms
+        console.error("Form submission error:", result);
+        toast({
+          title: "Error sending inquiry",
+          description: result.message || "Something went wrong. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      // Handle network or other unexpected errors
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error sending inquiry",
+        description: "A network error occurred. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      // This will run whether the submission succeeded or failed
+      setIsSubmitting(false);
+    }
+  };
+  
+  // --- The rest of your component's JSX and logic is perfectly fine ---
   const services = [
     {
       icon: Code,
@@ -148,7 +173,7 @@ const Hire = () => {
     <div className="min-h-screen" style={{ scrollBehavior: 'smooth' }}>
       <Navigation />
       
-      {/* Hero Section */}
+      {/* All your sections (Hero, Services, Process) remain untouched */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-slate-900 via-portfolio-primary/20 to-slate-800 text-white">
         <div className="container mx-auto px-6">
           <div className="text-center animate-fade-in-down">
@@ -171,7 +196,6 @@ const Hire = () => {
         </div>
       </section>
 
-      {/* Services Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16 animate-fade-in-up">
@@ -223,7 +247,6 @@ const Hire = () => {
         </div>
       </section>
 
-      {/* Process Section */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16 animate-fade-in-up">
@@ -258,7 +281,7 @@ const Hire = () => {
         </div>
       </section>
 
-      {/* Contact Form Section */}
+      {/* --- Contact Form Section (the JSX here remains untouched) --- */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
@@ -272,6 +295,7 @@ const Hire = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8 animate-fade-in-up">
+              {/* All form inputs are the same */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
