@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
-import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
+import { Send, Phone, Mail, MapPin } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { sendFormToEmail } from '@/utils/emailService';
+// The import for sendFormToEmail is now removed.
 
 const ContactSection = () => {
+  // Your state and handleChange function are perfect and remain unchanged.
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,34 +14,6 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      // Send email
-      await sendFormToEmail(formData, 'contact');
-      
-      // Simulate form submission delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      toast({
-        title: "Message sent successfully!",
-        description: "Thank you for reaching out. We'll get back to you soon.",
-      });
-
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
-      toast({
-        title: "Error sending message",
-        description: "Please try again or contact us directly via email.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -49,6 +21,64 @@ const ContactSection = () => {
     });
   };
 
+  // --- UPDATED handleSubmit FUNCTION ---
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Create the payload for Web3Forms
+      const payload = {
+        ...formData,
+        access_key: "adbaaba9-48cc-4e76-bf08-b88b9319b855", // Your same Web3Forms Access Key
+        subject: `New Contact Message from ${formData.name}: ${formData.subject}`,
+        from_name: "Portfolio Contact Section",
+      };
+
+      // Send data to Web3Forms API
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        // Use your existing toast for success
+        toast({
+          title: "Message sent successfully!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        // Reset the form on success
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        // Use your existing toast for errors from the API
+        console.error("Form submission error:", result);
+        toast({
+          title: "Error sending message",
+          description: result.message || "Something went wrong. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      // Use your existing toast for network errors
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error sending message",
+        description: "A network error occurred. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      // Re-enable the button
+      setIsSubmitting(false);
+    }
+  };
+
+  // Your JSX is perfect and does not need any changes.
   return (
     <section className="py-20 bg-slate-900 text-white">
       <div className="container mx-auto px-6">
