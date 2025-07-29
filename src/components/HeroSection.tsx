@@ -37,6 +37,8 @@ const HeroSection = () => {
                 <figure>
                   <img
                   src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
+                  width = "100";
+                  height = 100;
                   alt="abid ali Web Developer and Designer Profile picture"
                   title='abid ali Web Developer and Designer Profile Image'
                   aria-describedby='the profile picture of abid ali web, App developer, and designer. '
