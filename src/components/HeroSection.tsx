@@ -36,7 +36,7 @@ const HeroSection = () => {
               <div className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl hover-lift">
                 <figure>
                   <img
-                  src="./Assets/profile_image_of_abid_ali_web_developer.webp"
+                  src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
                   alt="abid ali Web Developer and Designer Profile picture"
                   title='abid ali Web Developer and Designer Profile Image'
                   aria-describedby='the profile picture of abid ali web, App developer, and designer. '
