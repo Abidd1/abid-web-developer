@@ -1,8 +1,5 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
-import { text } from 'stream/consumers';
-import { cursorTo } from 'readline';
 
 const HeroSection = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -39,13 +36,13 @@ const HeroSection = () => {
               <div className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl hover-lift">
                 <figure>
                   <img
-                  src="https://images.unsplash.com/photo-1457449940276-e8deed18bfff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
+                  src="./Assets/profile_image_of_abid_ali_web_developer.webp"
                   alt="abid ali Web Developer and Designer Profile picture"
                   title='abid ali Web Developer and Designer Profile Image'
                   aria-describedby='the profile picture of abid ali web, App developer, and designer. '
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <figcaption>abid ali Web Developer and Designer profile</figcaption>
+                <figcaption className="sr-only">abid ali Web Developer and Designer profile</figcaption>
                 </figure>
                 <div className="absolute inset-0 bg-gradient-to-t from-portfolio-primary/20 to-transparent"></div>
               </div>
@@ -73,7 +70,8 @@ const HeroSection = () => {
               <span className="text-gradient">{texts[currentText]}</span>
             </h1>
 
-            <p className="text-xl text-slate-300 mb-8 leading-relaxed max-w-2xl">
+            {/* === THIS IS THE CHANGED LINE === */}
+            <p className="text-xl text-white mb-8 leading-relaxed max-w-2xl">
               Crafting exceptional digital experiences with cutting-edge technology. 
               Specializing in modern web applications and innovative mobile solutions 
               that drive business growth and user engagement.
